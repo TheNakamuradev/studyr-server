@@ -6,6 +6,7 @@ import register from "./routes/register";
 import login from "./routes/login";
 
 import createCommunity from "./routes/community/create";
+import addUser from "./routes/community/add";
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ app.get("/", (req: Request, res: Response) => {
 
 app.post("/register", register);
 app.post("/login", login);
-
+app.patch("/user/add", addUser);
 app.post("/community/create", createCommunity)
 
 app.listen(Number(port), '0.0.0.0', () => {
