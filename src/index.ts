@@ -23,7 +23,7 @@ app.post("/register", async (req: Request, res: Response) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || "secret");
     res.status(201).send({ user: { username: username, password: password }, token: token });
   } catch (error) {
-    res.status(400).send({status: "error", "message": "User Exists"});
+    res.status(400).send({ status: "error", message: "User Exists" });
   }
 });
 
@@ -44,9 +44,15 @@ app.post("/login", async (req: Request, res: Response) => {
 
 app.listen(port, () => {
   if (process.env.MONGO_URI !== null && process.env.MONGO_URI !== undefined) {
-    mongoose.connect(process.env.MONGO_URI);
+    try {
+      mongoose.connect(process.env.MONGO_URI);
+    } catch {
+      console.log("Error connecting to the database");
+      process.exit(1)
+    }
     console.log(`[server]: Server is running at http://localhost:${port}`);
   } else {
+    console.log("MONGO_URI is not defined in .env file. Exiting...")
     process.exit(1);
   }
 });
