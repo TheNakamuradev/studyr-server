@@ -31,7 +31,7 @@ const userSchema = new Schema<UserDocument>(
     ],
     communities: [
       {
-        type: String,
+        type: Schema.Types.ObjectId,
         unique: true,
         required: false
       }

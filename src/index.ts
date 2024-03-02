@@ -7,7 +7,8 @@ import login from "./routes/login";
 
 import createCommunity from "./routes/community/create";
 import addUser from "./routes/community/add";
-import info from "./routes/community/info"
+
+import getUserInfo from "./routes/userinfo";
 
 dotenv.config();
 
@@ -22,11 +23,13 @@ app.get("/", (req: Request, res: Response) => {
 
 app.post("/register", register);
 app.post("/login", login);
-app.patch("/user/add", addUser);
-app.post("/community/create", createCommunity)
-app.post("/community/info", info)
 
-app.listen(Number(port), '0.0.0.0', () => {
+app.post("/community/create", createCommunity);
+app.patch("/community/add", addUser);
+
+app.get("/userinfo", getUserInfo);
+
+app.listen(Number(port), "0.0.0.0", () => {
   if (process.env.MONGO_URI !== null && process.env.MONGO_URI !== undefined) {
     try {
       mongoose.connect(process.env.MONGO_URI);
