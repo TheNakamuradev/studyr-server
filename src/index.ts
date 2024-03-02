@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
+import { User } from "./models/User";
 
 dotenv.config();
 

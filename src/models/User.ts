@@ -27,10 +27,10 @@ const userSchema = new Schema<UserDocument>(
       type: String,
       required: false,
     },
-    communities: {
-        type: Array<String>,
-        required: false
-    }
+    communities: [{
+        type: String,
+        required: false,
+    },]
   },
   { timestamps: true }  
 );
