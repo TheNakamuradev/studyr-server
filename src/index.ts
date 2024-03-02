@@ -1,12 +1,11 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-
-import { User, UserDocument } from "./models/User";
 
 import register from "./routes/register";
 import login from "./routes/login";
+
+import createCommunity from "./routes/community/create";
 
 dotenv.config();
 
@@ -20,7 +19,9 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.post("/register", register);
-app.post("/login", login );
+app.post("/login", login);
+
+app.post("/community/create", createCommunity)
 
 app.listen(port, () => {
   if (process.env.MONGO_URI !== null && process.env.MONGO_URI !== undefined) {

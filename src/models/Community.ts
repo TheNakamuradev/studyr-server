@@ -13,7 +13,6 @@ const communitySchema = new Schema<CommunityDocument>(
   {
     name: {
       type: String,
-      unique: true,
       required: true
     },
     description: {

@@ -8,7 +8,7 @@ export default async function login(req: Request, res: Response) {
   try {
     const user: UserDocument | null = await User.findOne({ username });
     if (!user || !(await user.comparePassword(password))) {
-      res.status(400).send({ message: "Invalid username or password" });
+      res.status(403).send({ message: "Invalid username or password" });
     } else {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || "secret");
       res.status(200).send({ user: { username: username, password: user.password }, token: token });
