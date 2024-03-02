@@ -13,7 +13,7 @@ export default async function getUserInfo(req: Request, res: Response) {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET || "secret") as {
       userId: string;
     };
-    const json = req.body;
+    const json = req.params as { userId: string };
     const user: UserDocument | null = await User.findById(json.userId || decodedToken.userId);
 
     if (!user) {
