@@ -6,6 +6,7 @@ import register from "./routes/register";
 import login from "./routes/login";
 
 import createCommunity from "./routes/community/create";
+import addUser from "./routes/community/add";
 
 import getUserInfo from "./routes/userinfo";
 
@@ -24,6 +25,7 @@ app.post("/register", register);
 app.post("/login", login);
 
 app.post("/community/create", createCommunity);
+app.patch("/community/add", addUser);
 
 app.get("/userinfo", getUserInfo);
 
