@@ -9,7 +9,7 @@ export default async function register(req: Request, res: Response) {
   try {
     await user.save();
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET || "secret");
-    res.status(201).send({ user: { username: username, password: password }, token: token });
+    res.status(201).send({ user: { username: username, password: user.password }, token: token });
   } catch (error) {
     res.status(400).send({ status: "error", message: "User Exists" });
   }
