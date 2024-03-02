@@ -21,12 +21,14 @@ const communitySchema = new Schema<CommunityDocument>(
     admin: [
       {
         type: String,
+        unique: true,
         required: true
       }
     ],
     users: [
       {
         type: String,
+        unique: true,
         required: true
       }
     ]

@@ -24,7 +24,9 @@ export default async function createCommunity(req: Request, res: Response) {
       admin: [user.username],
       users
     });
+    user.communities.push(community._id);
     await community.save();
+    await user.save();
     res.status(201).send({ community: { name, description, admin: [user.username], users } });
   } catch (error: any) {
     console.log(error.message)

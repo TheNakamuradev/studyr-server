@@ -6,6 +6,7 @@ const { Schema, model, models } = mongoose;
 export interface UserDocument extends Document {
   username: string;
   password: string;
+  tags: Array<string>;
   communities: Array<string>;
   comparePassword: (password: string) => Promise<boolean>;
 }
@@ -21,9 +22,17 @@ const userSchema = new Schema<UserDocument>(
       type: String,
       required: true
     },
+    tags: [
+      {
+        type: String,
+        unique: true,
+        required: true
+      }
+    ],
     communities: [
       {
         type: String,
+        unique: true,
         required: false
       }
     ]
