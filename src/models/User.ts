@@ -1,10 +1,13 @@
 import mongoose, { Document, Model } from "mongoose";
+import bcrypt from "bcrypt";
+
 const { Schema, model, models } = mongoose;
 
 export interface UserDocument extends Document {
-  username: String,
-  password: String,
-  communities: Array<String>,
+  username: string;
+  password: string;
+  communities: Array<string>;
+  comparePassword: (password: string) => Promise<boolean>;
 }
 
 const userSchema = new Schema<UserDocument>(
@@ -16,7 +19,7 @@ const userSchema = new Schema<UserDocument>(
     },
     password: {
       type: String,
-      required: false
+      required: true
     },
     communities: [
       {
@@ -27,6 +30,17 @@ const userSchema = new Schema<UserDocument>(
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+userSchema.methods.comparePassword = function (password: string): Promise<boolean> {
+  return bcrypt.compare(password, this.password);
+};
 
 export const User: Model<UserDocument> = models.User
   ? (models.User as Model<UserDocument>)
