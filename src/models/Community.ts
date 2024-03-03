@@ -1,6 +1,6 @@
-import mongoose, { Document, Model } from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 
-const { Schema, model, models } = mongoose;
+const { model, models } = mongoose;
 
 interface SessionDocument extends Document {
   name: string;
@@ -9,7 +9,7 @@ interface SessionDocument extends Document {
 export interface CommunityDocument extends Document {
   name: string;
   description: string;
-  admin: Array<string>;
+  admin: Schema.Types.ObjectId;
   users: Array<string>;
   Sessions: Array<SessionDocument>;
 }
@@ -19,10 +19,6 @@ const sessionSchema = new Schema<SessionDocument>(
     name: {
       type: String,
       required: true
-    },
-    _id: {
-      type: Schema.Types.ObjectId,
-      ref: "Session"
     }
   },
   { timestamps: true }
@@ -37,12 +33,10 @@ const communitySchema = new Schema<CommunityDocument>(
     description: {
       type: String
     },
-    admin: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User"
-      }
-    ],
+    admin: {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    },
     users: [
       {
         type: Schema.Types.ObjectId,

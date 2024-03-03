@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { UserDocument, User } from "../models/User";
 
 export default async function login(req: Request, res: Response) {
-  const { username, password } = req.body;
+  const { username, password } = req.body as { username: string; password: string };
   try {
     const user: UserDocument | null = await User.findOne({ username });
     if (!user || !(await user.comparePassword(password))) {

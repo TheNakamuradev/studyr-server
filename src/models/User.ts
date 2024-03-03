@@ -1,19 +1,46 @@
-import mongoose, { Document, Model } from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
-const { Schema, model, models } = mongoose;
+const { model, models } = mongoose;
+
+interface CommunityInfoDocument extends Document {
+  id: Schema.Types.ObjectId;
+  name: string;
+  description: string;
+}
 
 export interface UserDocument extends Document {
-  events: any;
+  name: string;
   username: string;
   password: string;
   tags: Array<string>;
-  communities: Array<string>;
+  communities: Array<CommunityInfoDocument>;
   comparePassword: (password: string) => Promise<boolean>;
 }
 
+const communityInfoSchema = new Schema<CommunityInfoDocument>(
+  {
+    id: {
+      type: Schema.Types.ObjectId,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String
+    }
+  },
+  { _id: false }
+);
+
 const userSchema = new Schema<UserDocument>(
   {
+    name: {
+      type: String,
+      required: true
+    },
     username: {
       type: String,
       unique: true,
@@ -30,8 +57,7 @@ const userSchema = new Schema<UserDocument>(
     ],
     communities: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "Community"
+        type: communityInfoSchema
       }
     ]
   },
