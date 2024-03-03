@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 const { Schema, model, models } = mongoose;
 
 export interface UserDocument extends Document {
+  events: any;
   username: string;
   password: string;
   tags: Array<string>;

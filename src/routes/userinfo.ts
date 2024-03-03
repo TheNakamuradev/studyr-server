@@ -13,7 +13,7 @@ export default async function getUserInfo(req: Request, res: Response) {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET || "secret") as {
       userId: string;
     };
-    const user: UserDocument | null = await User.findById(req.params.userId ?? decodedToken.userId);
+    const user: UserDocument | null = await User.findById(req.query.userId ?? decodedToken.userId);
 
     if (!user) {
       res.status(403).send({ message: "Unable to fetch User data" });

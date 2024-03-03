@@ -21,13 +21,13 @@ export default async function createCommunity(req: Request, res: Response) {
     const community: CommunityDocument = new Community({
       name,
       description,
-      admin: [user.username],
+      admin: [decodedToken.userId],
       users
     });
     user.communities.push(community._id);
     await community.save();
     await user.save();
-    res.status(201).send({ community: { name, description, admin: [user.username], users } });
+    res.status(201).send({ community: { id: community._id, name, description, admin: [user.username], users } });
   } catch (error: any) {
     console.log(error.message)
     res.status(409).send({ status: "error", message: "Community Exists" });

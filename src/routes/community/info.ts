@@ -18,8 +18,7 @@ export default async function getCommunityInfo(req: Request, res: Response) {
       res.status(403).send({ message: "Unauthorised Access" });
       return;
     }
-
-    const communityId = req.params.communityId;
+    const communityId = req.query.communityId;
     const community = await Community.findById(communityId);
     if (!community) {
       res.status(404).send({ status: "error", message: "Community Not Found" });
