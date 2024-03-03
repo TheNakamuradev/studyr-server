@@ -20,21 +20,27 @@ export default async function addUser(req: Request, res: Response) {
     if (!community) {
       res.status(404).send({ message: "Community not found" });
       return;
+    } else if (!community.admin.includes(decodedToken.userId)) {
+      res.status(403).send({ message: "Access Forbidden. Not an Admin" });
+      return;
     }
-    community.users.push(users);
+    community.updateOne({ $addToSet: { users } }).exec();
     for (let i = 0; i < users.length; i++) {
       const user = await User.findById(users[i]);
       if (!user) {
-        res.status(404).send({ message: "User not found" });
+        res.status(404).send({ message: `userId ${users[i]} not found` });
         return;
       } else {
-        user.communities.push(communityId);
-        await user.save();
+        user.updateOne({ $addToSet: { communities: community._id } }).exec();
       }
     }
-    await community.save();
+    const updatedCommunity = await Community.findById(communityId);
+    if (!updatedCommunity) {
+      res.status(400).send({ message: "Error" });
+      return;
+    }
 
-    res.status(200).send({ communityId: community._id, name: community.name, users: community.users });
+    res.status(200).send({ communityId: community._id, name: community.name, users: updatedCommunity.users});
   } catch (error) {
     res.status(500).send({ status: "error", message: "Internal Server Error" });
   }

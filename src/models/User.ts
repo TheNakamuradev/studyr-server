@@ -25,16 +25,13 @@ const userSchema = new Schema<UserDocument>(
     },
     tags: [
       {
-        type: String,
-        unique: true,
-        required: true
+        type: String
       }
     ],
     communities: [
       {
         type: Schema.Types.ObjectId,
-        unique: true,
-        required: false
+        ref: "Community"
       }
     ]
   },

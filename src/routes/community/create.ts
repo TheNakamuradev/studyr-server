@@ -12,7 +12,9 @@ export default async function createCommunity(req: Request, res: Response) {
     return;
   }
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET || "secret") as {userId: string}
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET || "secret") as {
+      userId: string;
+    };
     const user: UserDocument | null = await User.findById(decodedToken.userId);
     if (!user) {
       res.status(401).send({ message: "Unauthorized Access" });
@@ -24,12 +26,18 @@ export default async function createCommunity(req: Request, res: Response) {
       admin: [decodedToken.userId],
       users
     });
-    user.communities.push(community._id);
-    await community.save();
-    await user.save();
-    res.status(201).send({ community: { id: community._id, name, description, admin: [user.username], users } });
+    user.updateOne({ $addToSet: { communities: community._id } }).exec();
+    res.status(201).send({
+      community: {
+        id: community._id,
+        name,
+        description,
+        admin: [decodedToken.userId],
+        users
+      }
+    });
   } catch (error: any) {
-    console.log(error.message)
+    console.log(error.message);
     res.status(409).send({ status: "error", message: "Community Exists" });
   }
 }

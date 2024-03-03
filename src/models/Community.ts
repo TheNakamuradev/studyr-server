@@ -40,15 +40,13 @@ const communitySchema = new Schema<CommunityDocument>(
     admin: [
       {
         type: Schema.Types.ObjectId,
-        unique: true,
-        required: true
+        ref: "User"
       }
     ],
     users: [
       {
         type: Schema.Types.ObjectId,
-        unique: true,
-        required: true
+        ref: "User"
       }
     ],
     Sessions: [
