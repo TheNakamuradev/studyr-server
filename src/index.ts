@@ -8,7 +8,8 @@ import login from "./routes/login";
 import createCommunity from "./routes/community/create";
 import addUser from "./routes/community/add";
 import getCommunityInfo from "./routes/community/info";
-import getUserInfo from "./routes/userinfo";
+import getUserInfo from "./routes/user/info";
+import editTags from "./routes/user/tags";
 
 dotenv.config();
 
@@ -27,7 +28,10 @@ app.post("/login", login);
 app.post("/community/create", createCommunity);
 app.patch("/community/add", addUser);
 app.get("/community/info", getCommunityInfo);
-app.get("/userinfo", getUserInfo);
+
+app.get("/user/info", getUserInfo);
+app.patch("/user/tags", editTags);
+
 
 app.listen(Number(port), "0.0.0.0", () => {
   if (process.env.MONGO_URI !== null && process.env.MONGO_URI !== undefined) {
