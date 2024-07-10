@@ -9,10 +9,10 @@
     "dev": "tsc --watch & NODE_ENV=development nodemon dist",
     "test": "tsc && ./node_modules/.bin/mocha dist/**/*.spec.js",
     "lint": "tslint 'src/**/*.ts' --fix",
-    "clean": "rm -rf dist/ .logs/",
-    "start": "node dist"
+    "clean": "rm -rf dist/ .logs/"    ,
+    "start": "node dist"          
   },
-  "keywords": [],
+   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
